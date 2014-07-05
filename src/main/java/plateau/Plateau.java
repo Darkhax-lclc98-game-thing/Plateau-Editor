@@ -1,19 +1,27 @@
 package plateau;
 
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
 public class Plateau {
 
@@ -36,39 +44,43 @@ public class Plateau {
 		frmMain.setTitle("Plateau Editor");
 
 		// Creates canvas for map editor
-		Canvas cnvs = new Canvas();
+		//Canvas cnvs = new Canvas();
 		// sets size
-		cnvs.setSize(800, 400);
+		//cnvs.setSize(800, 400);
 
 		// TODO Remove code
-		cnvs.setBackground(new Color(200, 191, 231));
+		//cnvs.setBackground(new Color(200, 191, 231));
 
 		// Menu Bar
 		createMenuBar(frmMain);
 
 		// Tabs
 		// TODO What it do?
-		// createTabs(frmMain);
+		createTabs(frmMain);
 
 		// Custom close handler
 		WindowListener exitListener = new WindowAdapter() {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				int confirm = JOptionPane.showOptionDialog(null, "Are You Sure to Close Application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-				if (confirm == 0) {
-					System.exit(0);
-				}
+				close();
 			}
 		};
 		frmMain.addWindowListener(exitListener);
 
-		frmMain.add(cnvs);
+		//frmMain.add(cnvs);
 		frmMain.setLayout(new FlowLayout());
 		frmMain.setVisible(true);
 
 		// sets the viewport up for the map editor
-		new PlateauLWJGLHandler().setup(frmMain, cnvs);
+		//new PlateauLWJGLHandler().setup(frmMain, cnvs);
+	}
+
+	public void close() {
+		//int confirm = JOptionPane.showOptionDialog(null, "Are You Sure to Close Application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+		//if (confirm == 0) {
+			System.exit(0);
+		//}
 	}
 
 	/**
@@ -110,20 +122,43 @@ public class Plateau {
 	 * @param items
 	 * @param menuBar
 	 */
-	private void createBar(String outerBar, JMenuItem[] items, JMenuBar menuBar) {
-		JMenu menu = new JMenu(outerBar);
+	private void createBar(final String menuMain, JMenuItem[] items, JMenuBar menuBar) {
+		JMenu menu = new JMenu(menuMain);
 
 		// for each item in array add to the menu bar as a sub item
-		for (JMenuItem itemList : items) {
+		for (final JMenuItem itemList : items) {
 			// if the text is null, it will put a separator in instead
 			if (itemList.getText().equals("")) {
 				menu.addSeparator();
 			} else {
 				menu.add(itemList);
+				itemList.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						onClick(menuMain, itemList.getText());
+					}
+				});
 			}
 		}
 
 		menuBar.add(menu);
 	}
 
+	private void onClick(String menuName, String itemName) {
+		if (menuName.equalsIgnoreCase("File") && itemName.equalsIgnoreCase("Quit")) close();
+	}
+
+	private void createTabs(JFrame frmMain) {
+		JTabbedPane tabbedPane = new JTabbedPane();
+		
+		JComponent panel1 = makeTextPanel("Panel #1");
+		tabbedPane.addTab("Test", null, panel1);
+		
+		frmMain.add(tabbedPane);
+	}
+
+	private JComponent makeTextPanel(String text) {
+		JPanel panel = new JPanel(false);
+		panel.setPreferredSize(new Dimension(800, 600));
+		return panel;
+	}
 }

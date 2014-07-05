@@ -33,7 +33,7 @@ public class PlateauLWJGLHandler {
 		}
 		// sets up view port of map editor
 		glViewport(0, 0, cnvs.getWidth(), cnvs.getHeight());
-		
+
 		// sets the viewport to running
 		running = true;
 
