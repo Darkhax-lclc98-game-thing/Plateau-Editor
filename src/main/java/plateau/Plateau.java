@@ -5,11 +5,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class Plateau {
 
@@ -24,8 +28,6 @@ public class Plateau {
 	public void createWindow() {
 		// Sets up jframe
 		JFrame frmMain = new JFrame();
-		// on clicking the X close the gui
-		frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// sets the gui to be full screen
 		frmMain.setExtendedState(Frame.MAXIMIZED_BOTH);
 		// sets the minimum size the gui can get to
@@ -47,6 +49,19 @@ public class Plateau {
 		// Tabs
 		// TODO What it do?
 		// createTabs(frmMain);
+
+		// Custom close handler
+		WindowListener exitListener = new WindowAdapter() {
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				int confirm = JOptionPane.showOptionDialog(null, "Are You Sure to Close Application?", "Exit Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+				if (confirm == 0) {
+					System.exit(0);
+				}
+			}
+		};
+		frmMain.addWindowListener(exitListener);
 
 		frmMain.add(cnvs);
 		frmMain.setLayout(new FlowLayout());
@@ -107,7 +122,7 @@ public class Plateau {
 				menu.add(itemList);
 			}
 		}
-		
+
 		menuBar.add(menu);
 	}
 
