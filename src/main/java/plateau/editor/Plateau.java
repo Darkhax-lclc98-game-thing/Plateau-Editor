@@ -1,4 +1,4 @@
-package plateau;
+package plateau.editor;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -7,13 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import javax.swing.*;
 
 public class Plateau {
     Canvas cnvs = new Canvas();
@@ -149,8 +143,7 @@ public class Plateau {
 
         // TODO Remove code
         cnvs.setBackground(new Color(200, 191, 231));
-
-        tabbedPane.addTab("Map Editor", null, makeTab(new Component[]{cnvs}));
+        tabbedPane.addTab("Map Editor", null, makeTab(new Component[]{cnvs, new JList<ImageIcon>(new ImageIcon[]{})}));
 
         frmMain.add(tabbedPane);
 
